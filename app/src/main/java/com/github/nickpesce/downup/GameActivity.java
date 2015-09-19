@@ -86,4 +86,8 @@ public class GameActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    public GameView getGameView()
+    {
+        return gameView;
+    }
 }
