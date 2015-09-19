@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -23,6 +24,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Paint paint;
     private Canvas canvas;
     private GameActivity game;
+    private double scale;
+    private int offX;
+    private int offY;
     public GameView(Context context, AttributeSet attributes)
     {
         super(context, attributes);
@@ -52,6 +56,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawPaint(paint);
     }
 
+    /**
+     * Transforms the rect from 2160x3840 to desired screen resolution.
+     * @param rect The dest rect. location on 4k screen`
+     * @return New rect transformed to be correct for the actual screen
+     */
+    public Rect applyTransformation(Rect rect)
+    {
+        return new Rect((int)((rect.left * scale) + offX), (int)((rect.top * scale) + offY),  (int)((rect.right*scale) + offX), (int)((rect.bottom*scale)+offY));
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder)
     {
@@ -61,7 +75,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
     {
+        int desiredHeight = 3840;
+        int desiredWidth = 2160;
+        double desiredRatio = (double)desiredWidth/desiredHeight;
+        double actualRatio = (double)width/height;
+        if(actualRatio > desiredRatio)
+        {
+            scale = (double)height/desiredHeight;
 
+            offX = (int)((width - (desiredWidth*scale))/2);
+        }else if(actualRatio < desiredRatio)
+        {
+            scale = (double)width/desiredWidth;
+            offY = (int)((height - (desiredHeight*scale))/2);
+        }
     }
 
     @Override
