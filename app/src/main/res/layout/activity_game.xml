@@ -5,10 +5,9 @@
 
 
 
-    <com.github.nickpesce.drawing.GameCanvas
+    <com.github.nickpesce.drawing.GameView
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:id="@+id/game_canvas"
-        android:background="@android:color/holo_purple"/>
+        android:id="@+id/game_canvas" />
 
 </RelativeLayout>
