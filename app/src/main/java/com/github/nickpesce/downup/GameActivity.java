@@ -1,26 +1,54 @@
 package com.github.nickpesce.downup;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.github.nickpesce.drawing.GameCanvas;
+import com.github.nickpesce.drawing.GameView;
 import com.github.nickpesce.engine.GameLoop;
 
 import nickpesce.github.com.downup.R;
 
 public class GameActivity extends Activity {
 
-    GameCanvas canvas;
-    GameLoop loop;
+    private GameView gameView;
+    private GameLoop loop;
+    private boolean paused;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
+        gameView = (GameView)findViewById(R.id.game_canvas);
+        loop = new GameLoop(this);
+        paused = false;
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        loop.stop();
+    }
+
+    public void start()
+    {
+        loop.startGame();
+    }
+
+    public void stop()
+    {
+        loop.stop();
+    }
 
     public void render(double interpolation)
     {
-        canvas.redraw();
+        gameView.redraw();
     }
+
     public void update()
     {
 
@@ -28,20 +56,12 @@ public class GameActivity extends Activity {
 
     public boolean isUpdating()
     {
-        return true;
+        return !paused;
     }
+
     public boolean isDisplaying()
     {
         return true;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
-        canvas = (GameCanvas)findViewById(R.id.game_canvas);
-        loop = new GameLoop(this);
-        loop.startGame();
     }
 
     @Override
@@ -65,4 +85,5 @@ public class GameActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
