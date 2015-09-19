@@ -9,7 +9,7 @@ import android.graphics.drawable.Drawable;
 import com.github.nickpesce.component.Entity;
 
 /**
- * Created by Nick on 9/19/2015.
+ * Custom drawable class with optional animations.
  */
 public class Sprite extends Drawable
 {
@@ -75,7 +75,7 @@ public class Sprite extends Drawable
     @Override
     public void draw(Canvas canvas)
     {
-        canvas.drawBitmap(bitmap, new Rect(currSection*width, 0, (currSection+1) * width, height), entity.getRect(), null);
+        canvas.drawBitmap(bitmap, new Rect(currSection*width, 0, (currSection+1) * width, height), entity.getDrawRect(), null);
     }
 
     @Override
