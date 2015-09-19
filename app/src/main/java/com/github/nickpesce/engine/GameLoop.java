@@ -86,64 +86,6 @@ public class GameLoop
         }
     }
 
-	/*
-	private void startLoop()
-	{
-		//http://entropyinteractive.com/2011/02/game-engine-design-the-game-loop/
-		double nextTime = (double)System.nanoTime() / 1000000000.0;
-        double maxTimeDiff = 0.5;
-        double lastFrameTime = 0;
-        double lastTickTime = 0;
-        int skippedFrames = 1;
-        int maxSkippedFrames = 5;
-        while(running)
-        {
-            // convert the time to seconds
-            double currTime = (System.nanoTime() / 1000000000.0);
-            if((currTime - nextTime) > maxTimeDiff)
-            	nextTime = currTime;
-            if(currTime >= nextTime)
-            {
-                // assign the time for the next update
-                nextTime += 1.0/BASE_SPEED;
-                if(game.state.equals(Game.State.PLAYING))
-                {
-                	game.update();
-                	updateTps(-(int)Math.round(1.0 / (lastTickTime - (lastTickTime = (double)System.nanoTime() / 1000000000.0))));
-                }
-                if((currTime < nextTime) || (skippedFrames >= maxSkippedFrames))
-                {
-                    updateFps(-(int)Math.round(1.0 / (lastFrameTime - (lastFrameTime = (double)System.nanoTime() / 1000000000.0))));
-                    game.updateFrame((nextTime-currTime)*BASE_SPEED);
-                    skippedFrames = 1;
-                }
-                else
-                {
-                    skippedFrames++;
-                }
-            }
-            else
-            {
-                // calculate the time to sleep
-                int sleepTime = (int)(1000.0 * (nextTime - currTime));
-                // sanity check
-                if(sleepTime > 0)
-                {
-                    // sleep until the next update
-                    try
-                    {
-                        Thread.sleep(sleepTime);
-                    }
-                    catch(InterruptedException e)
-                    {
-                        // do nothing
-                    }
-                }
-            }
-        }
-	}
-*/
-
     public int getActualSpeed()
     {
         return actualSpeed;
