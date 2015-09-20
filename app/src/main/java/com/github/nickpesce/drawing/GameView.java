@@ -5,12 +5,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import com.github.nickpesce.component.Entity;
 import com.github.nickpesce.downup.GameActivity;
 
 import java.util.logging.Logger;
@@ -50,10 +52,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private void render(Canvas canvas)
     {
+        if(canvas == null)return;
         paint.setColor(0xFF0000);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.WHITE);
         canvas.drawPaint(paint);
+        for(Entity e : game.getItems())
+            e.getSprite().draw(canvas);
     }
 
     /**
