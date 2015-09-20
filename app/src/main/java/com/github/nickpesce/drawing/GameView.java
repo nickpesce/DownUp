@@ -14,6 +14,7 @@ import android.view.SurfaceView;
 import android.view.View;
 
 import com.github.nickpesce.component.Entity;
+import com.github.nickpesce.component.Objective;
 import com.github.nickpesce.downup.GameActivity;
 
 import java.util.logging.Logger;
@@ -74,8 +75,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         paint.setColor(Color.WHITE);
         canvas.drawRect(offX, offY, (float) (2160.0f * scale), (float) (3840 * scale), paint);
 
+        for(Objective o : game.getObjectives())
+            o.draw(canvas, this);
         for(Entity e : game.getItems())
             e.getSprite().draw(canvas);
+
     }
 
     /**
