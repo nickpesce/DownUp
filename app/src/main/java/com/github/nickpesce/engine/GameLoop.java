@@ -26,6 +26,7 @@ public class GameLoop
 
     public void startGame()
     {
+        game.init();
         new Thread(new Runnable()
         {
             @Override
