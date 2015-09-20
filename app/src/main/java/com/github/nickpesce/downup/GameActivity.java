@@ -2,11 +2,7 @@ package com.github.nickpesce.downup;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -24,7 +20,7 @@ public class GameActivity extends Activity {
     private GameLoop loop;
     private boolean paused;
     private Entity[] items;
-    private Sprite[] upSprites, downSprites;
+    private Bitmap[] upBitmaps, downBitmaps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -38,26 +34,40 @@ public class GameActivity extends Activity {
 
     public void init()
     {
-        upSprites = new Sprite[1];
-        downSprites = new Sprite[1];
-        downSprites[0] = new Sprite(ImageHelper.getScaledBitmapFromResource(this, R.drawable.anchor, 400, 300), 400, 300);
-        upSprites[0] = new Sprite(ImageHelper.getScaledBitmapFromResource(this, R.drawable.anchor, 400, 300), 400, 300);
+        upBitmaps = new Bitmap[2];
+        downBitmaps = new Bitmap[2];
+
+        downBitmaps[0] = ImageHelper.getScaledBitmapFromResource(this, R.drawable.anchor, 400, 400);
+        downBitmaps[1] =  ImageHelper.getScaledBitmapFromResource(this, R.drawable.dumbbell, 400, 400);
+
+        upBitmaps[0] = ImageHelper.getScaledBitmapFromResource(this, R.drawable.anchor, 400, 400);
+        upBitmaps[1] =ImageHelper.getScaledBitmapFromResource(this, R.drawable.anchor, 400, 400);
 
         items = new Entity[4];
-        items[0] = new Entity(this, 100, 60, 400, 300, getRandomDownSprite());
-        items[1] = new Entity(this, 600, 60, 400, 300, getRandomDownSprite());
-        items[2] = new Entity(this, 1100, 60, 400, 300, getRandomDownSprite());
-        items[3] = new Entity(this, 1600, 60, 400, 300, getRandomDownSprite());
+        items[0] = new Entity(this, 100, 60, 400, 400, getRandomDownSprite(400, 400));
+        items[1] = new Entity(this, 600, 60, 400, 400, getRandomDownSprite(400, 400));
+        items[2] = new Entity(this, 1100, 60, 400, 400, getRandomDownSprite(400, 400));
+        items[3] = new Entity(this, 1600, 60, 400, 400, getRandomDownSprite(400, 400));
     }
 
-    public Sprite getRandomUpSprite()
+    public Sprite getRandomUpSprite(int w, int h)
     {
-        return upSprites[(int)(Math.random() * upSprites.length)];
+        return new Sprite(getRandomUpBitmap(), w, h);
     }
 
-    public Sprite getRandomDownSprite()
+    public Sprite getRandomDownSprite(int w, int h)
     {
-        return downSprites[(int)(Math.random() * downSprites.length)];
+        return new Sprite(getRandomDownBitmap(), w, h);
+    }
+
+    public Bitmap getRandomUpBitmap()
+    {
+        return upBitmaps[(int)(Math.random() * upBitmaps.length)];
+    }
+
+    public Bitmap getRandomDownBitmap()
+    {
+        return downBitmaps[(int)(Math.random() * downBitmaps.length)];
     }
 
 
