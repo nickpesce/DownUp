@@ -10,7 +10,7 @@ public class GameLoop
     private GameActivity game;
     private boolean running = true;
     private int fps, tps;
-    public static final int BASE_SPEED = 60;
+    public static final int BASE_SPEED = 20;
     public static final int MAX_FPS = 60;
     private int actualSpeed = BASE_SPEED;
     private double d = 1.0/actualSpeed;

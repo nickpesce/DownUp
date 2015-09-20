@@ -91,7 +91,7 @@ public class GameActivity extends Activity {
 
     public void render(double interpolation)
     {
-        gameView.redraw();
+        gameView.redraw(interpolation);
     }
 
     public void update()

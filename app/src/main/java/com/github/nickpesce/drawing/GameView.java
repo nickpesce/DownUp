@@ -29,6 +29,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private double scale;
     private int offX;
     private int offY;
+    private double interpolation;
     public GameView(Context context, AttributeSet attributes)
     {
         super(context, attributes);
@@ -37,8 +38,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         game = (GameActivity)context;
     }
 
-    public synchronized void redraw()
+    public synchronized void redraw(double interpolation)
     {
+        this.interpolation = interpolation;
         canvas = null;
         try{
             canvas = getHolder().lockCanvas();
@@ -62,13 +64,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     /**
-     * Transforms the rect from 2160x3840 to desired screen resolution.
+     * Transforms the rect from 2160x3840 to desired screen resolution. Assumes not moving
      * @param rect The dest rect. location on 4k screen`
      * @return New rect transformed to be correct for the actual screen
      */
     public Rect applyTransformation(Rect rect)
     {
         return new Rect((int)((rect.left * scale) + offX), (int)((rect.top * scale) + offY),  (int)((rect.right*scale) + offX), (int)((rect.bottom*scale)+offY));
+    }
+
+    /**
+     * Transforms the rect from 2160x3840 to desired screen resolution. Also applies interpolation with given speeds.
+     * @param rect The dest rect. location on 4k screen`
+     * @return New rect transformed to be correct for the actual screen
+     */
+    public Rect applyTransformation(Rect rect, double vX, double vY)
+    {
+        return new Rect((int)((rect.left * scale) + offX + (vX*interpolation)), (int)((rect.top * scale) + offY + (vY*interpolation)),  (int)((rect.right*scale) + offX + (vX*interpolation)), (int)((rect.bottom*scale)+offY + (vY*interpolation)));
     }
 
     @Override
