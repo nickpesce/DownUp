@@ -13,6 +13,8 @@ import com.github.nickpesce.drawing.ImageHelper;
 import com.github.nickpesce.drawing.Sprite;
 import com.github.nickpesce.engine.GameLoop;
 
+import java.util.ArrayList;
+
 import nickpesce.github.com.downup.R;
 
 public class GameActivity extends Activity {
@@ -23,7 +25,7 @@ public class GameActivity extends Activity {
     private boolean paused;
     private Entity[] items;
     private Bitmap[] upBitmaps, downBitmaps;
-    private Objective[] objectives;
+    private ArrayList<Objective> objectives;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,6 +46,7 @@ public class GameActivity extends Activity {
 
     public void init()
     {
+        objectives = new ArrayList<Objective>();
         upBitmaps = new Bitmap[2];
         downBitmaps = new Bitmap[2];
 
@@ -58,6 +61,7 @@ public class GameActivity extends Activity {
         items[1] = new Entity(this, 600, Math.random() * (3840-400) + 1, 400, 400, 1);
         items[2] = new Entity(this, 1100, Math.random() * (3840-400) + 1, 400, 400, 2);
         items[3] = new Entity(this, 1600, Math.random() * (3840-400) + 1, 400, 400, 3);
+
     }
 
     public Sprite getRandomUpSprite(int w, int h)
@@ -80,7 +84,7 @@ public class GameActivity extends Activity {
         return downBitmaps[(int)(Math.random() * downBitmaps.length)];
     }
 
-    public Objective[] getObjectives()
+    public ArrayList<Objective> getObjectives()
     {
         return objectives;
     }
