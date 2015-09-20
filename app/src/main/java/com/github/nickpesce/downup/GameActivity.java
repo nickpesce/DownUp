@@ -1,12 +1,19 @@
 package com.github.nickpesce.downup;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.github.nickpesce.component.Entity;
 import com.github.nickpesce.drawing.GameView;
+import com.github.nickpesce.drawing.ImageHelper;
+import com.github.nickpesce.drawing.Sprite;
 import com.github.nickpesce.engine.GameLoop;
 
 import nickpesce.github.com.downup.R;
@@ -16,6 +23,8 @@ public class GameActivity extends Activity {
     private GameView gameView;
     private GameLoop loop;
     private boolean paused;
+    private Entity[] items;
+    private Sprite[] upSprites, downSprites;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,6 +36,31 @@ public class GameActivity extends Activity {
         paused = false;
     }
 
+    public void init()
+    {
+        upSprites = new Sprite[1];
+        downSprites = new Sprite[1];
+        downSprites[0] = new Sprite(ImageHelper.getScaledBitmapFromResource(this, R.drawable.anchor, 400, 300), 400, 300);
+        upSprites[0] = new Sprite(ImageHelper.getScaledBitmapFromResource(this, R.drawable.anchor, 400, 300), 400, 300);
+
+        items = new Entity[4];
+        items[0] = new Entity(this, 100, 60, 400, 300, getRandomDownSprite());
+        items[1] = new Entity(this, 600, 60, 400, 300, getRandomDownSprite());
+        items[2] = new Entity(this, 1100, 60, 400, 300, getRandomDownSprite());
+        items[3] = new Entity(this, 1600, 60, 400, 300, getRandomDownSprite());
+    }
+
+    public Sprite getRandomUpSprite()
+    {
+        return upSprites[(int)(Math.random() * upSprites.length)];
+    }
+
+    public Sprite getRandomDownSprite()
+    {
+        return downSprites[(int)(Math.random() * downSprites.length)];
+    }
+
+
     @Override
     protected void onStop()
     {
@@ -37,6 +71,7 @@ public class GameActivity extends Activity {
     public void start()
     {
         loop.startGame();
+
     }
 
     public void stop()
@@ -51,7 +86,8 @@ public class GameActivity extends Activity {
 
     public void update()
     {
-
+        for(Entity e : items)
+            e.update();
     }
 
     public boolean isUpdating()
@@ -62,6 +98,11 @@ public class GameActivity extends Activity {
     public boolean isDisplaying()
     {
         return true;
+    }
+
+    public Entity[] getItems()
+    {
+        return items;
     }
 
     @Override
