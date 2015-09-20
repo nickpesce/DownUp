@@ -2,7 +2,9 @@ package com.github.nickpesce.drawing;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
@@ -42,27 +44,27 @@ public class Sprite extends Drawable
      */
     private int currSection;
     /**
-     * The entity that this sprite is representing
+     * the scaled location on the screne for the sprite to be drawn. Obtained thorugh the update method.
      */
-    private Entity entity;
-    public Sprite(Bitmap bitmap, Entity e, int width, int height, int n, int t)
+    private Rect drawLocation;
+    public Sprite(Bitmap bitmap, int width, int height, int n, int t)
     {
         this.bitmap = bitmap;
         this.width = width;
         this.height = height;
-        this.entity = e;
         this.n = n;
         this.t = t;
         nextT = System.currentTimeMillis() + t;
     }
 
-    public Sprite(Bitmap bitmap, Entity e, int width, int height)
+    public Sprite(Bitmap bitmap, int width, int height)
     {
-        this(bitmap, e, width, height, 1, 0);
+        this(bitmap, width, height, 1, 0);
     }
 
-    public void update()
+    public void update(Rect drawLocation)
     {
+        this.drawLocation = drawLocation;
         if(System.currentTimeMillis() > nextT)
         {
             currSection++;
@@ -75,7 +77,16 @@ public class Sprite extends Drawable
     @Override
     public void draw(Canvas canvas)
     {
-        canvas.drawBitmap(bitmap, new Rect(currSection*width, 0, (currSection+1) * width, height), entity.getDrawRect(), null);
+        if(drawLocation == null)return;
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setFilterBitmap(true);
+        paint.setDither(true);
+        canvas.drawBitmap(bitmap, new Rect(currSection * width, 0, (currSection + 1) * width, height), drawLocation, paint);
+        //Paint paint = new Paint();
+        //paint.setColor(Color.BLUE);
+        //paint.setStyle(Paint.Style.FILL);
+        //canvas.drawRect(drawLocation, paint);
     }
 
     @Override
