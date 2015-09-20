@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -35,7 +36,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super(context, attributes);
         paint = new Paint();
         getHolder().addCallback(this);
+        requestFocus();
         game = (GameActivity)context;
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        int x = (int) (event.getX()/scale)+offX;
+        int y = (int)(event.getY()/scale)+offY;
+        if(!(x < 0 || x > 2160 || y < 0 || y > 3840))
+            game.onTouch(x, y);
+        return super.onTouchEvent(event);
     }
 
     public synchronized void redraw(double interpolation)
@@ -57,8 +69,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if(canvas == null)return;
         paint.setColor(0xFF0000);
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.WHITE);
+        paint.setColor(Color.BLACK);
         canvas.drawPaint(paint);
+        paint.setColor(Color.WHITE);
+        canvas.drawRect(offX, offY, (float) (2160.0f * scale), (float) (3840 * scale), paint);
+
         for(Entity e : game.getItems())
             e.getSprite().draw(canvas);
     }
@@ -92,19 +107,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
     {
-        int desiredHeight = 3840;
-        int desiredWidth = 2160;
+        int desiredHeight = GameActivity.HEIGHT;
+        int desiredWidth = GameActivity.WIDTH;
         double desiredRatio = (double)desiredWidth/desiredHeight;
         double actualRatio = (double)width/height;
         if(actualRatio > desiredRatio)
         {
             scale = (double)height/desiredHeight;
 
-            offX = (int)((width - (desiredWidth*scale))/2);
+            offX = (int)(((width - (desiredWidth*scale)))/2);
         }else if(actualRatio < desiredRatio)
         {
             scale = (double)width/desiredWidth;
-            offY = (int)((height - (desiredHeight*scale))/2);
+            offY = (int)(((height - (desiredHeight*scale)))/2);
         }
     }
 
