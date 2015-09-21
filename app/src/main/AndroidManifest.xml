@@ -20,7 +20,7 @@
             android:screenOrientation="portrait" android:configChanges="orientation|keyboardHidden"
             android:name="com.github.nickpesce.downup.GameActivity"
             android:label="@string/title_activity_game"
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         </activity>
     </application>
 
