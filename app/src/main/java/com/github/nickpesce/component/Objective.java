@@ -76,7 +76,7 @@ public class Objective
     }
     public boolean includesPoint(int locY)
     {
-        return locY < y && locY > y+width;
+        return locY < y && locY > y+height;
     }
 
     public boolean isTouching(Rect other)
@@ -101,7 +101,7 @@ public class Objective
         canvas.drawRect(gameView.applyTransformation(rect), paint);
         paint.setColor(Color.BLACK);
         paint.setTextSize((int)(120*gameView.getScale()));
-        canvas.drawText(type.name(), (int)(((GameActivity.WIDTH/4.0) * n)*gameView.getScale()) +gameView.getOffsetX(), (int)(y*gameView.getScale()) + paint.getTextSize() +  gameView.getOffsetY(), paint);
+        canvas.drawText(type.name(), (int)(((width) * n)*gameView.getScale()) +gameView.getOffsetX(), (int)(y*gameView.getScale()) + paint.getTextSize() +  gameView.getOffsetY(), paint);
     }
 
     public static Objective getNewRandomObjective(GameActivity game, int n, boolean top)
@@ -118,6 +118,6 @@ public class Objective
             y = GameActivity.HEIGHT - (int)(Math.random() * (GameActivity.HEIGHT/7.0)) - width;//y value in bottom seventh of screen
         }
 
-        return new Objective(n, type, y, width, (int)(game.WIDTH/game.getNumItems()));
+        return new Objective(n, type, y, (game.WIDTH/game.getNumItems()), width);
     }
 }
