@@ -4,6 +4,7 @@ import android.graphics.Rect;
 
 import com.github.nickpesce.downup.GameActivity;
 import com.github.nickpesce.drawing.Sprite;
+import com.github.nickpesce.engine.GameLoop;
 
 import java.util.Iterator;
 
@@ -44,9 +45,9 @@ public class Entity
     private double getRandomAcceleration(boolean positive)
     {
         if(positive)
-            return (Math.random()+.1)*2;
+            return (Math.random()+.1)*(20.0/ GameLoop.BASE_SPEED)*Math.log10(game.getScore()+10);
         else
-            return -(Math.random()+.1)*2;
+            return -(Math.random()+.1)*(20.0/GameLoop.BASE_SPEED)*Math.log10(game.getScore()+10);
     }
 
     public void freeze(int ms)
