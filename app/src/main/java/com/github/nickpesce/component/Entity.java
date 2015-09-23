@@ -50,7 +50,7 @@ public class Entity
     }
     public void update()
     {
-        if(freezeUntil > System.currentTimeMillis()) {
+        if(freezeUntil < System.currentTimeMillis()) {
             x += vX;
             y += vY;
             vX += aX;
