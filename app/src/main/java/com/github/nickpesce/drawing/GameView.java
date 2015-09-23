@@ -123,7 +123,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
      */
     public Rect applyTransformation(Rect rect, double vX, double vY)
     {
-        return new Rect((int)((rect.left * scale) + offX + (vX*interpolation)), (int)((rect.top * scale) + offY + (vY*interpolation)),  (int)((rect.right*scale) + offX + (vX*interpolation)), (int)((rect.bottom*scale)+offY + (vY*interpolation)));
+        return new Rect((int)(((rect.left + (vX*interpolation)) * scale) + offX), (int)(((rect.top + (vY*interpolation)) * scale) + offY),  (int)(((rect.right + (vX*interpolation))*scale) + offX), (int)(((rect.bottom + (vY*interpolation))*scale)+offY));
     }
 
     @Override
