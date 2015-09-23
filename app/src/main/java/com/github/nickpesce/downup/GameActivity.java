@@ -50,17 +50,17 @@ public class GameActivity extends Activity {
         upBitmaps = new Bitmap[2];
         downBitmaps = new Bitmap[2];
 
-        downBitmaps[0] = ImageHelper.getScaledBitmapFromResource(this, R.drawable.anchor, 400, 400);
-        downBitmaps[1] =  ImageHelper.getScaledBitmapFromResource(this, R.drawable.dumbbell, 400, 400);
+        downBitmaps[0] = ImageHelper.getScaledBitmapFromResource(this, R.drawable.anchor, WIDTH/4, WIDTH/4);
+        downBitmaps[1] =  ImageHelper.getScaledBitmapFromResource(this, R.drawable.dumbbell, WIDTH/4, WIDTH/4);
 
-        upBitmaps[0] = ImageHelper.getScaledBitmapFromResource(this, R.drawable.bubble, 400, 400);
-        upBitmaps[1] =ImageHelper.getScaledBitmapFromResource(this, R.drawable.balloon, 400, 400);
+        upBitmaps[0] = ImageHelper.getScaledBitmapFromResource(this, R.drawable.bubble, WIDTH/4, WIDTH/4);
+        upBitmaps[1] =ImageHelper.getScaledBitmapFromResource(this, R.drawable.balloon, WIDTH/4, WIDTH/4);
 
         items = new Entity[4];
-        items[0] = new Entity(this, 100, Math.random() * (3840-400) + 1, 400, 400, 0);
-        items[1] = new Entity(this, 600, Math.random() * (3840-400) + 1, 400, 400, 1);
-        items[2] = new Entity(this, 1100, Math.random() * (3840-400) + 1, 400, 400, 2);
-        items[3] = new Entity(this, 1600, Math.random() * (3840-400) + 1, 400, 400, 3);
+        items[0] = new Entity(this, 0, Math.random() * (HEIGHT-WIDTH/4) + 1, WIDTH/4, WIDTH/4, 0);
+        items[1] = new Entity(this, WIDTH/4, Math.random() * (HEIGHT-WIDTH/4) + 1, WIDTH/4, WIDTH/4, 1);
+        items[2] = new Entity(this, WIDTH/2, Math.random() * (HEIGHT-WIDTH/4) + 1, WIDTH/4, WIDTH/4, 2);
+        items[3] = new Entity(this, 3*WIDTH/4, Math.random() * (HEIGHT-WIDTH/4) + 1, WIDTH/4, WIDTH/4, 3);
 
     }
 
