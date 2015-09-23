@@ -1,24 +1,19 @@
 package com.github.nickpesce.drawing;
 
-import android.app.ActivityGroup;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 
 import com.github.nickpesce.component.Entity;
 import com.github.nickpesce.component.Objective;
 import com.github.nickpesce.downup.GameActivity;
-
-import java.util.logging.Logger;
 
 /**
  * The view for the game. Contained by GameActivity. Where the drawing of game components takes place.
@@ -27,7 +22,6 @@ import java.util.logging.Logger;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private Paint paint;
-    private Canvas canvas;
     private GameActivity game;
     private double scale;
     private int offX;
@@ -43,7 +37,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event)
+    public boolean onTouchEvent(@NonNull MotionEvent event)
     {
         int x = (int) (event.getX()/scale)+offX;
         int y = (int)(event.getY()/scale)+offY;
@@ -55,13 +49,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public synchronized void redraw(double interpolation)
     {
         this.interpolation = interpolation;
-        canvas = null;
+        Canvas canvas = null;
         try{
             canvas = getHolder().lockCanvas();
             render(canvas);
         }
         finally{
-            if(canvas!=null)
+            if(canvas !=null)
                 getHolder().unlockCanvasAndPost(canvas);
         }
     }
