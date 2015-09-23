@@ -1,5 +1,6 @@
 package com.github.nickpesce.drawing;
 
+import android.app.ActivityGroup;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -46,7 +47,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     {
         int x = (int) (event.getX()/scale)+offX;
         int y = (int)(event.getY()/scale)+offY;
-        if(!(x < 0 || x > 2160 || y < 0 || y > 3840))
+        if(!(x < 0 || x > GameActivity.WIDTH || y < 0 || y > GameActivity.HEIGHT))
             game.onTouch(x, y);
         return super.onTouchEvent(event);
     }
@@ -73,11 +74,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         paint.setColor(Color.BLACK);
         canvas.drawPaint(paint);
         paint.setColor(Color.GRAY);
-        canvas.drawRect(offX, offY, (float) (GameActivity.WIDTH * scale), (float) (GameActivity.HEIGHT * scale), paint);
+        canvas.drawRect(offX, offY, (float) (GameActivity.WIDTH * scale)+offX, (float) (GameActivity.HEIGHT * scale)+offY, paint);
         paint.setColor(Color.BLACK);
         for(int i = 0; i < 4; i++)
         {
-            int x = (int)(((GameActivity.WIDTH/4.0)*i + offX) * scale);
+            int x = (int)(((GameActivity.WIDTH/4.0)*i) * scale) + offX;
             canvas.drawLine(x, offY, x, offY + (int)(GameActivity.HEIGHT * scale), paint);
         }
 
@@ -125,11 +126,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         {
             scale = (double)height/desiredHeight;
 
-            offX = (int)(((width - (desiredWidth*scale)))/2);
+            offX = (int)(((width - (desiredWidth*scale)))/2.0);
         }else if(actualRatio < desiredRatio)
         {
             scale = (double)width/desiredWidth;
             offY = (int)(((height - (desiredHeight*scale)))/2);
+        }else
+        {
+            scale = (double)width/desiredWidth;
         }
     }
 
