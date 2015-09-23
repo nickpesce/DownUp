@@ -45,9 +45,9 @@ public class Entity
     private double getRandomAcceleration(boolean positive)
     {
         if(positive)
-            return (Math.random()+.1)*(20.0/ GameLoop.BASE_SPEED)*Math.log10(game.getScore()+10);
+            return (Math.random()+.1)*(4.0/ GameLoop.BASE_SPEED)*Math.log10(game.getScore()+10)*game.getSpeedMultiplier();
         else
-            return -(Math.random()+.1)*(20.0/GameLoop.BASE_SPEED)*Math.log10(game.getScore()+10);
+            return -(Math.random()+.1)*(4.0/GameLoop.BASE_SPEED)*Math.log10(game.getScore()+10)*game.getSpeedMultiplier();
     }
 
     public void freeze(int ms)

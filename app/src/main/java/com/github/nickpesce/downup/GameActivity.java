@@ -31,6 +31,7 @@ public class GameActivity extends Activity {
     private int score;
     private long startTime;
     private int numItems;
+    private int speedMultiplier;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,7 +42,8 @@ public class GameActivity extends Activity {
         loop = new GameLoop(this);
         paused = false;
         startTime = System.currentTimeMillis();
-        numItems = 4;//TODO get difficulty from intent extra
+        numItems = getIntent().getIntExtra("columns", 4);
+        speedMultiplier = getIntent().getIntExtra("speed", 5);
         if(Build.VERSION.SDK_INT >= 19) {
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -67,6 +69,11 @@ public class GameActivity extends Activity {
     public int getScore()
     {
         return score;
+    }
+
+    public int getSpeedMultiplier()
+    {
+        return speedMultiplier;
     }
 
     public int getNumItems()

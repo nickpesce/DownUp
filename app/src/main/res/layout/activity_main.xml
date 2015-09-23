@@ -14,4 +14,16 @@
         android:layout_height="wrap_content"
         android:text="Down Up!"
         android:layout_gravity="center_horizontal|top" />
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/npColumns"
+        android:layout_gravity="left|center_vertical" />
+
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/npSpeed"
+        android:layout_gravity="right|center_vertical" />
 </FrameLayout>

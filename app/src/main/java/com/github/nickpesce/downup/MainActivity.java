@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 
 import nickpesce.github.com.downup.R;
 
@@ -16,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
      * The start button on the main menu
      */
     private Button bStart;
-
+    private NumberPicker numberPickerSpeed, numberPickerColumns;
 
 
     @Override
@@ -24,12 +25,26 @@ public class MainActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        numberPickerSpeed = (NumberPicker)findViewById(R.id.npSpeed);
+        numberPickerSpeed.setMaxValue(10);
+        numberPickerSpeed.setValue(5);
+        numberPickerSpeed.setMinValue(1);
+        numberPickerSpeed.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
+        numberPickerColumns = (NumberPicker)findViewById(R.id.npColumns);
+        numberPickerColumns.setMaxValue(10);
+        numberPickerColumns.setValue(4);
+        numberPickerColumns.setMinValue(2);
+        numberPickerColumns.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
         bStart = (Button)findViewById(R.id.button_start);
         bStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
                 Intent i = new Intent(MainActivity.this, GameActivity.class);
+                i.putExtra("speed", numberPickerSpeed.getValue());
+                i.putExtra("columns", numberPickerColumns.getValue());
                 startActivity(i);
             }
         });
