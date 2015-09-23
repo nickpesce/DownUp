@@ -99,7 +99,8 @@ public class Objective
         paint.setColor(color);
         canvas.drawRect(gameView.applyTransformation(rect), paint);
         paint.setColor(Color.BLACK);
-        canvas.drawText(type.name(), (int)(((GameActivity.WIDTH/4.0) * n)*gameView.getScaleX()), (int)(y*gameView.getScaleX()), paint);
+        paint.setTextSize((int)(120*gameView.getScale()));
+        canvas.drawText(type.name(), (int)(((GameActivity.WIDTH/4.0) * n)*gameView.getScale()) +gameView.getOffsetX(), (int)(y*gameView.getScale()) + paint.getTextSize() +  gameView.getOffsetY(), paint);
     }
 
     public static Objective getNewRandomObjective(int n, boolean top)

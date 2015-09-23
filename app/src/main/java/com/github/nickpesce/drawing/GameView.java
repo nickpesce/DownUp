@@ -46,6 +46,21 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         return super.onTouchEvent(event);
     }
 
+    public double getScale()
+    {
+        return scale;
+    }
+
+    public int getOffsetX()
+    {
+        return offX;
+    }
+
+    public int getOffsetY()
+    {
+        return offY;
+    }
+
     public synchronized void redraw(double interpolation)
     {
         this.interpolation = interpolation;
