@@ -27,6 +27,7 @@ public class GameActivity extends Activity {
     private Bitmap[] upBitmaps, downBitmaps;
     private ArrayList<Objective> objectives;
     private int score;
+    private long startTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -36,6 +37,7 @@ public class GameActivity extends Activity {
         gameView = (GameView)findViewById(R.id.game_canvas);
         loop = new GameLoop(this);
         paused = false;
+        startTime = System.currentTimeMillis();
     }
 
     public void onTouch(int x, int y)

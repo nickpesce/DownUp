@@ -53,8 +53,7 @@ public class Objective
 
     public void hit(Entity e)
     {
-        e.setaY(0);
-        e.setvY(0);
+
     }
     public boolean includesPoint(int locY)
     {

@@ -32,7 +32,10 @@ public class Entity
         this.y = y;
         this.width = width;
         this.height = height;
-        this.aY = Math.random()-.5;
+        if(Math.random() > .5)
+            this.aY = -Math.random()*2;
+        else
+            this.aY = Math.random()*2;
         this.n = n;
         if(aY > 0)
             sprite = game.getRandomDownSprite(width, height);
@@ -83,14 +86,13 @@ public class Entity
         vY = 0;
         if(aY<0)
         {
-            this.aY = Math.random()/2;
+            this.aY = Math.random()*2;
             sprite = game.getRandomDownSprite(width, height);
             game.addToScore((int)(GameActivity.HEIGHT - y));
-
         }
         else
         {
-            this.aY = -Math.random()/2;
+            this.aY = -Math.random()*2;
             sprite = game.getRandomUpSprite(width, height);
             game.addToScore((int)(y));
 
