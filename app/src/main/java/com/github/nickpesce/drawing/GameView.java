@@ -81,6 +81,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         for(Entity e : game.getItems())
             e.getSprite().draw(canvas);
 
+        paint.setTextSize((int)(120*scale));
+        canvas.drawText("score: " + game.getScore(), offX, (int)(120*scale)+offY, paint);
+
     }
 
     /**

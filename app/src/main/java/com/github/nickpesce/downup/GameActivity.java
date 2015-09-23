@@ -26,6 +26,7 @@ public class GameActivity extends Activity {
     private Entity[] items;
     private Bitmap[] upBitmaps, downBitmaps;
     private ArrayList<Objective> objectives;
+    private int score;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,7 +41,17 @@ public class GameActivity extends Activity {
     public void onTouch(int x, int y)
     {
         int n = (int)((x/2160.1)*4);
-        items[n].reverse();
+        items[n].tryReverse();
+    }
+
+    public void addToScore(int s)
+    {
+        score += s;
+    }
+
+    public int getScore()
+    {
+        return score;
     }
 
 

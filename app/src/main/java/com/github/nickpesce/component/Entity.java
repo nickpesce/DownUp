@@ -62,18 +62,38 @@ public class Entity
     {
         game.gameOver();
     }
-    public void reverse()
+
+    public void tryReverse()
+    {
+        if(aY<0)
+        {
+            if(y < GameActivity.HEIGHT/5)
+                reverse();
+        }
+        else
+        {
+            if(y+height > GameActivity.HEIGHT - GameActivity.HEIGHT/5)
+               reverse();
+
+        }
+    }
+
+    private void reverse()
     {
         vY = 0;
         if(aY<0)
         {
             this.aY = Math.random()/2;
             sprite = game.getRandomDownSprite(width, height);
+            game.addToScore((int)(GameActivity.HEIGHT - y));
+
         }
         else
         {
             this.aY = -Math.random()/2;
             sprite = game.getRandomUpSprite(width, height);
+            game.addToScore((int)(y));
+
         }
         //Check all objectives. If in same row, remove and apply effect if in zone.
         Iterator<Objective> it = game.getObjectives().iterator();
@@ -91,6 +111,7 @@ public class Entity
         {
             game.getObjectives().add(Objective.getNewRandomObjective(n, aY < 0));
         }
+
     }
 
 

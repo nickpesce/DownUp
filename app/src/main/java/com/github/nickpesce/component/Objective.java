@@ -90,11 +90,11 @@ public class Objective
         int y;
         if(top)
         {
-            y = (int)(Math.random() * (GameActivity.HEIGHT/4.0));//y value in top fourth of screen
+            y = (int)(Math.random() * (GameActivity.HEIGHT/7.0));//y value in top seventh of screen
         }
         else
         {
-            y = GameActivity.HEIGHT - (int)(Math.random() * (GameActivity.HEIGHT/4.0)) - width;//y value in bottom fourth of screen
+            y = GameActivity.HEIGHT - (int)(Math.random() * (GameActivity.HEIGHT/7.0)) - width;//y value in bottom seventh of screen
         }
 
         return new Objective(n, type, y, width);
