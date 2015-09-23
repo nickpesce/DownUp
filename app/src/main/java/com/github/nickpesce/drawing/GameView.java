@@ -83,19 +83,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         paint.setColor(Color.BLACK);
         canvas.drawPaint(paint);
         paint.setColor(Color.GRAY);
-        canvas.drawRect(offX, offY, (float) (GameActivity.WIDTH * scale)+offX, (float) (GameActivity.HEIGHT * scale)+offY, paint);
+        canvas.drawRect(offX, offY, (float) (GameActivity.WIDTH * scale) + offX, (float) (GameActivity.HEIGHT * scale) + offY, paint);
         paint.setColor(Color.BLACK);
         for(int i = 0; i < 4; i++)
         {
             int x = (int)(((GameActivity.WIDTH/4.0)*i) * scale) + offX;
             canvas.drawLine(x, offY, x, offY + (int)(GameActivity.HEIGHT * scale), paint);
         }
+        paint.setColor(Color.GREEN);
+        paint.setAlpha(20);
+        canvas.drawRect(offX, offY + (int)((GameActivity.HEIGHT - GameActivity.HEIGHT/5)*scale), (int) (GameActivity.WIDTH * scale), (int) (GameActivity.HEIGHT * scale), paint);
+        canvas.drawRect(offX, offY, (int)(GameActivity.WIDTH * scale), (int)((GameActivity.HEIGHT/5)*scale), paint);
 
         for(Objective o : game.getObjectives())
             o.draw(canvas, this);
         for(Entity e : game.getItems())
             e.getSprite().draw(canvas);
 
+        paint.setColor(Color.BLACK);
         paint.setTextSize((int)(120*scale));
         canvas.drawText("score: " + game.getScore(), offX, (int)(120*scale)+offY, paint);
 
