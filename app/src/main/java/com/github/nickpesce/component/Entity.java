@@ -123,7 +123,7 @@ public class Entity
         }
         if(Math.random() < .2)
         {
-            game.getObjectives().add(Objective.getNewRandomObjective(n, aY < 0));
+            game.getObjectives().add(Objective.getNewRandomObjective(game, n, aY < 0));
         }
 
     }

@@ -30,6 +30,7 @@ public class GameActivity extends Activity {
     private ArrayList<Objective> objectives;
     private int score;
     private long startTime;
+    private int numItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,6 +41,7 @@ public class GameActivity extends Activity {
         loop = new GameLoop(this);
         paused = false;
         startTime = System.currentTimeMillis();
+        numItems = 4;//TODO get difficulty from intent extra
         if(Build.VERSION.SDK_INT >= 19) {
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -53,7 +55,7 @@ public class GameActivity extends Activity {
 
     public void onTouch(int x, int y)
     {
-        int n = (int)((x/2160.1)*4);
+        int n = (int)((x/(WIDTH+.01/*To prevent n == numItems*/))*numItems);
         items[n].tryReverse();
     }
 
@@ -67,6 +69,10 @@ public class GameActivity extends Activity {
         return score;
     }
 
+    public int getNumItems()
+    {
+        return numItems;
+    }
 
     public void init()
     {
@@ -74,19 +80,18 @@ public class GameActivity extends Activity {
         upBitmaps = new Bitmap[2];
         downBitmaps = new Bitmap[2];
 
-        int entitySize = WIDTH/4;
+        int entitySize = WIDTH/numItems;
         downBitmaps[0] = ImageHelper.getScaledBitmapFromResource(this, R.drawable.anchor, entitySize, entitySize);
         downBitmaps[1] =  ImageHelper.getScaledBitmapFromResource(this, R.drawable.dumbbell, entitySize, entitySize);
 
         upBitmaps[0] = ImageHelper.getScaledBitmapFromResource(this, R.drawable.bubble, entitySize, entitySize);
         upBitmaps[1] =ImageHelper.getScaledBitmapFromResource(this, R.drawable.balloon, entitySize, entitySize);
 
-        items = new Entity[4];
-        items[0] = new Entity(this, 0, HEIGHT/2.0 - entitySize, entitySize, entitySize, 0);
-        items[1] = new Entity(this, entitySize, HEIGHT/2.0 - entitySize, entitySize, entitySize, 1);
-        items[2] = new Entity(this, WIDTH/2, HEIGHT/2.0 - entitySize, entitySize, entitySize, 2);
-        items[3] = new Entity(this, 3*entitySize, HEIGHT/2.0 - entitySize, entitySize, entitySize, 3);
-
+        items = new Entity[numItems];
+        for(int i = 0; i < numItems; i++)
+        {
+            items[i] = new Entity(this, i*entitySize, HEIGHT/2.0 - entitySize, entitySize, entitySize, i);
+        }
     }
 
     public Sprite getRandomUpSprite(int w, int h)

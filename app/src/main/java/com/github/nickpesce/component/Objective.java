@@ -18,12 +18,12 @@ public class Objective
 
     private int n;
     private int y;
-    private int width;
+    private int width, height;
     private Type type;
     private int color;
     private Rect rect;
 
-    public Objective(int n, Type type, int y, int width)
+    public Objective(int n, Type type, int y, int width, int height)
     {
         this.n = n;
         this.type = type;
@@ -51,7 +51,8 @@ public class Objective
         }
         this.y = y;
         this.width = width;
-        rect = new Rect((int)((GameActivity.WIDTH/4.0) * n), y, (int)((GameActivity.WIDTH/4.0) * (n+1)), y+width);
+        this.height = height;
+        rect = new Rect((width * n), y, (width * (n+1)), y+height);
     }
 
     public void hit(Entity e)
@@ -103,7 +104,7 @@ public class Objective
         canvas.drawText(type.name(), (int)(((GameActivity.WIDTH/4.0) * n)*gameView.getScale()) +gameView.getOffsetX(), (int)(y*gameView.getScale()) + paint.getTextSize() +  gameView.getOffsetY(), paint);
     }
 
-    public static Objective getNewRandomObjective(int n, boolean top)
+    public static Objective getNewRandomObjective(GameActivity game, int n, boolean top)
     {
         int width = (int)(Math.random() * (GameActivity.HEIGHT/10.0) + 20);//At least 20. Max height/10 + 20
         Type type = Type.values()[(int)(Math.random()*Type.values().length)];
@@ -117,6 +118,6 @@ public class Objective
             y = GameActivity.HEIGHT - (int)(Math.random() * (GameActivity.HEIGHT/7.0)) - width;//y value in bottom seventh of screen
         }
 
-        return new Objective(n, type, y, width);
+        return new Objective(n, type, y, width, (int)(game.WIDTH/game.getNumItems()));
     }
 }

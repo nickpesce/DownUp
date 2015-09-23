@@ -85,9 +85,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         paint.setColor(Color.GRAY);
         canvas.drawRect(offX, offY, (float) (GameActivity.WIDTH * scale) + offX, (float) (GameActivity.HEIGHT * scale) + offY, paint);
         paint.setColor(Color.BLACK);
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < game.getNumItems(); i++)
         {
-            int x = (int)(((GameActivity.WIDTH/4.0)*i) * scale) + offX;
+            int x = (int)((((double)GameActivity.WIDTH/game.getNumItems())*i) * scale) + offX;
             canvas.drawLine(x, offY, x, offY + (int)(GameActivity.HEIGHT * scale), paint);
         }
         paint.setColor(Color.GREEN);
