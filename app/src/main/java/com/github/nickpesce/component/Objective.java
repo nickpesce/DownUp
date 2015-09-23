@@ -14,7 +14,7 @@ import com.github.nickpesce.drawing.GameView;
 public class Objective
 {
     public enum Type
-    {slow, points, gem, extra}
+    {slow, points, gem, extra, freeze}
 
     private int n;
     private int y;
@@ -30,7 +30,7 @@ public class Objective
         switch(type)
         {
             case slow:
-                this.color = Color.CYAN;
+                this.color = Color.GREEN;
                 break;
             case points:
                 this.color = Color.RED;
@@ -40,6 +40,9 @@ public class Objective
                 break;
             case extra:
                 this.color = Color.BLUE;
+                break;
+            case freeze:
+                this.color = Color.CYAN;
                 break;
             default:
                 this.color = Color.BLACK;
@@ -53,7 +56,22 @@ public class Objective
 
     public void hit(Entity e)
     {
+        switch(type)
+        {
+            case points:
+                e.getGame().addToScore(50000);
+                break;
+            case slow:
+                e.setaY(e.getaY()/4.0);
+                break;
+            case extra:
 
+                break;
+            case gem:
+                break;
+            case freeze:
+                e.freeze(5000);
+        }
     }
     public boolean includesPoint(int locY)
     {
@@ -79,7 +97,9 @@ public class Objective
     {
         Paint paint = new Paint();
         paint.setColor(color);
-        canvas.drawRect(gameView.applyTransformation(rect),  paint);
+        canvas.drawRect(gameView.applyTransformation(rect), paint);
+        paint.setColor(Color.BLACK);
+        canvas.drawText(type.name(), (int)(((GameActivity.WIDTH/4.0) * n)*gameView.getScaleX()), (int)(y*gameView.getScaleX()), paint);
     }
 
     public static Objective getNewRandomObjective(int n, boolean top)

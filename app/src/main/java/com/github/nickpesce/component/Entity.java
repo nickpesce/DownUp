@@ -24,6 +24,7 @@ public class Entity
     private double aY;
     private Sprite sprite;
     private int n;
+    private long freezeUntil;
 
     public Entity(GameActivity game, double x, double y, int width, int height, int n)
     {
@@ -43,16 +44,22 @@ public class Entity
             sprite = game.getRandomUpSprite(width, height);
     }
 
+    public void freeze(int ms)
+    {
+        freezeUntil = System.currentTimeMillis() + ms;
+    }
     public void update()
     {
-        x += vX;
-        y += vY;
-        vX += aX;
-        vY += aY;
-        if(y <= 0)
-            hitTop();
-        else if(y >= 3840 - height)
-            hitBottom();
+        if(freezeUntil > System.currentTimeMillis()) {
+            x += vX;
+            y += vY;
+            vX += aX;
+            vY += aY;
+            if (y <= 0)
+                hitTop();
+            else if (y >= GameActivity.HEIGHT - height)
+                hitBottom();
+        }
         sprite.update(getDrawRect());
     }
 
@@ -114,6 +121,11 @@ public class Entity
             game.getObjectives().add(Objective.getNewRandomObjective(n, aY < 0));
         }
 
+    }
+
+    public GameActivity getGame()
+    {
+        return game;
     }
 
 
