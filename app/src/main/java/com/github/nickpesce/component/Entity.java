@@ -61,9 +61,9 @@ public class Entity
             y += vY;
             vX += aX;
             vY += aY;
-            if (y <= 0)
+            if (y+height <= 0)
                 hitTop();
-            else if (y >= GameActivity.HEIGHT - height)
+            else if (y >= GameActivity.HEIGHT)
                 hitBottom();
         }
         sprite.update(getDrawRect());
