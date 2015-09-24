@@ -84,15 +84,15 @@ public class GameActivity extends Activity {
     public void init()
     {
         objectives = new ArrayList<Objective>();
-        upBitmaps = new Bitmap[2];
+        upBitmaps = new Bitmap[1];
         downBitmaps = new Bitmap[2];
 
         int entitySize = WIDTH/numItems;
         downBitmaps[0] = ImageHelper.getScaledBitmapFromResource(this, R.drawable.anchor, entitySize, entitySize);
         downBitmaps[1] =  ImageHelper.getScaledBitmapFromResource(this, R.drawable.dumbbell, entitySize, entitySize);
 
-        upBitmaps[0] = ImageHelper.getScaledBitmapFromResource(this, R.drawable.bubble, entitySize, entitySize);
-        upBitmaps[1] =ImageHelper.getScaledBitmapFromResource(this, R.drawable.balloon, entitySize, entitySize);
+        //upBitmaps[0] = ImageHelper.getScaledBitmapFromResource(this, R.drawable.bubble, entitySize, entitySize);
+        upBitmaps[0] =ImageHelper.getScaledBitmapFromResource(this, R.drawable.balloon, entitySize*4 , entitySize);
 
         items = new Entity[numItems];
         for(int i = 0; i < numItems; i++)
@@ -103,7 +103,7 @@ public class GameActivity extends Activity {
 
     public Sprite getRandomUpSprite(int w, int h)
     {
-        return new Sprite(getRandomUpBitmap(), w, h);
+        return new Sprite(getRandomUpBitmap(), w, h, 4, 50);
     }
 
     public Sprite getRandomDownSprite(int w, int h)
