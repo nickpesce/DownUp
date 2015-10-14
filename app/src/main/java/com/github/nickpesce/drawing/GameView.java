@@ -1,8 +1,10 @@
 package com.github.nickpesce.drawing;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
@@ -14,6 +16,8 @@ import android.view.SurfaceView;
 import com.github.nickpesce.component.Entity;
 import com.github.nickpesce.component.Objective;
 import com.github.nickpesce.downup.GameActivity;
+
+import nickpesce.github.com.downup.R;
 
 /**
  * The view for the game. Contained by GameActivity. Where the drawing of game components takes place.
@@ -27,6 +31,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private int offX;
     private int offY;
     private double interpolation;
+    private Bitmap background;
+    private Matrix transformation;
+
     public GameView(Context context, AttributeSet attributes)
     {
         super(context, attributes);
@@ -34,6 +41,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         requestFocus();
         game = (GameActivity)context;
+        transformation = new Matrix();
+       // background = ImageHelper.getScaledBitmapFromResource(context, R.drawable.background, GameActivity.WIDTH/10, GameActivity.HEIGHT/10);
     }
 
     @Override
@@ -44,11 +53,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if(!(x < 0 || x > GameActivity.WIDTH || y < 0 || y > GameActivity.HEIGHT))
             game.onTouch(x, y);
         return super.onTouchEvent(event);
-    }
-
-    public double getScale()
-    {
-        return scale;
     }
 
     public int getOffsetX()
@@ -78,22 +82,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private void render(Canvas canvas)
     {
         if(canvas == null)return;
+        canvas.setMatrix(transformation);
         paint.setColor(0xFF0000);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.BLACK);
         canvas.drawPaint(paint);
+
+
         paint.setColor(Color.GRAY);
-        canvas.drawRect(offX, offY, (float) (GameActivity.WIDTH * scale) + offX, (float) (GameActivity.HEIGHT * scale) + offY, paint);
+        canvas.drawRect(0, 0, GameActivity.WIDTH, GameActivity.HEIGHT, paint);
+       // canvas.drawBitmap(background, offX, offY, (int)(GameActivity.WIDTH*scale), (int)(GameActivity.HEIGHT*scale), paint);
+
         paint.setColor(Color.BLACK);
         for(int i = 0; i < game.getNumItems(); i++)
         {
-            int x = (int)((((double)GameActivity.WIDTH/game.getNumItems())*i) * scale) + offX;
-            canvas.drawLine(x, offY, x, offY + (int)(GameActivity.HEIGHT * scale), paint);
+            int x = (int)(((double)GameActivity.WIDTH/game.getNumItems())*i);
+            canvas.drawLine(x,0, x, GameActivity.HEIGHT, paint);
         }
         paint.setColor(Color.GREEN);
         paint.setAlpha(20);
-        canvas.drawRect(offX, offY + (int)((GameActivity.HEIGHT - GameActivity.HEIGHT/5)*scale), (int) (GameActivity.WIDTH * scale), (int) (GameActivity.HEIGHT * scale), paint);
-        canvas.drawRect(offX, offY, (int)(GameActivity.WIDTH * scale), (int)((GameActivity.HEIGHT/5)*scale), paint);
+        canvas.drawRect(0, GameActivity.HEIGHT - GameActivity.HEIGHT/5, GameActivity.WIDTH , GameActivity.HEIGHT, paint);
+        canvas.drawRect(0, 0, GameActivity.WIDTH, GameActivity.HEIGHT/5, paint);
 
         for(Objective o : game.getObjectives())
             o.draw(canvas, this);
@@ -101,29 +110,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             e.getSprite().draw(canvas);
 
         paint.setColor(Color.BLACK);
-        paint.setTextSize((int)(120*scale));
-        canvas.drawText("score: " + game.getScore(), offX, (int)(120*scale)+offY, paint);
+        paint.setTextSize(120);
+        canvas.drawText("score: " + game.getScore(), 0, 120, paint);
 
-    }
-
-    /**
-     * Transforms the rect from 2160x3840 to desired screen resolution. Assumes not moving
-     * @param rect The dest rect. location on 4k screen`
-     * @return New rect transformed to be correct for the actual screen
-     */
-    public Rect applyTransformation(Rect rect)
-    {
-        return new Rect((int)((rect.left * scale) + offX), (int)((rect.top * scale) + offY),  (int)((rect.right*scale) + offX), (int)((rect.bottom*scale)+offY));
-    }
-
-    /**
-     * Transforms the rect from 2160x3840 to desired screen resolution. Also applies interpolation with given speeds.
-     * @param rect The dest rect. location on 4k screen`
-     * @return New rect transformed to be correct for the actual screen
-     */
-    public Rect applyTransformation(Rect rect, double vX, double vY)
-    {
-        return new Rect((int)(((rect.left + (vX*interpolation)) * scale) + offX), (int)(((rect.top + (vY*interpolation)) * scale) + offY),  (int)(((rect.right + (vX*interpolation))*scale) + offX), (int)(((rect.bottom + (vY*interpolation))*scale)+offY));
     }
 
     @Override
@@ -152,6 +141,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         {
             scale = (double)width/desiredWidth;
         }
+        transformation.postScale((float)scale, (float)scale);
+        transformation.postTranslate(offX, offY);
+
     }
 
     @Override

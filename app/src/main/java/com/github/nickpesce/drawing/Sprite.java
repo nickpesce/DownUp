@@ -47,6 +47,15 @@ public class Sprite extends Drawable
      * the scaled location on the screne for the sprite to be drawn. Obtained thorugh the update method.
      */
     private Rect drawLocation;
+
+    /**
+     *
+     * @param bitmap
+     * @param width
+     * @param height
+     * @param n
+     * @param t
+     */
     public Sprite(Bitmap bitmap, int width, int height, int n, int t)
     {
         this.bitmap = bitmap;

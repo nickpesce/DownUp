@@ -142,7 +142,7 @@ public class Entity
 
     public Rect getDrawRect()
     {
-        return game.getGameView().applyTransformation(getRect(), vX, vY);
+        return new Rect((int)x, (int)y, (int)(x +  width + (vX*game.getInterpolation())), (int)(y+height + (vY *game.getInterpolation())));
     }
 
     public double getX() {

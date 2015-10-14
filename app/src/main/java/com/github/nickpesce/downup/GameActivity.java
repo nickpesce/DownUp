@@ -32,6 +32,7 @@ public class GameActivity extends Activity {
     private long startTime;
     private int numItems;
     private int speedMultiplier;
+    private double interpolation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,6 +45,7 @@ public class GameActivity extends Activity {
         startTime = System.currentTimeMillis();
         numItems = getIntent().getIntExtra("columns", 4);
         speedMultiplier = getIntent().getIntExtra("speed", 5);
+        /*
         if(Build.VERSION.SDK_INT >= 19) {
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -53,6 +55,7 @@ public class GameActivity extends Activity {
                             | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                             | View.SYSTEM_UI_FLAG_IMMERSIVE);
         }
+        */
     }
 
     public void onTouch(int x, int y)
@@ -151,8 +154,15 @@ public class GameActivity extends Activity {
 
     public void render(double interpolation)
     {
+        this.interpolation = interpolation;
         gameView.redraw(interpolation);
     }
+
+    public double getInterpolation()
+    {
+        return interpolation;
+    }
+
 
     public void update()
     {
