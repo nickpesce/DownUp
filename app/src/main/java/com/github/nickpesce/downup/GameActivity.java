@@ -26,7 +26,7 @@ public class GameActivity extends Activity {
     private GameLoop loop;
     private boolean paused;
     private Entity[] items;
-    private Bitmap[] upBitmaps, downBitmaps;
+    private Bitmap upBitmap, downBitmap;
     private ArrayList<Objective> objectives;
     private int score;
     private long startTime;
@@ -84,44 +84,30 @@ public class GameActivity extends Activity {
         return numItems;
     }
 
+    public Bitmap getUpBitmap()
+    {
+        return upBitmap;
+    }
+
+    public Bitmap getDownBitmap()
+    {
+        return downBitmap;
+    }
+
     public void init()
     {
         objectives = new ArrayList<Objective>();
-        upBitmaps = new Bitmap[1];
-        downBitmaps = new Bitmap[2];
 
         int entitySize = WIDTH/numItems;
-        downBitmaps[0] = ImageHelper.getScaledBitmapFromResource(this, R.drawable.anchor, entitySize, entitySize);
-        downBitmaps[1] =  ImageHelper.getScaledBitmapFromResource(this, R.drawable.dumbbell, entitySize, entitySize);
+        downBitmap = ImageHelper.getScaledBitmapFromResource(this, R.drawable.anchor, entitySize, entitySize);
 
-        //upBitmaps[0] = ImageHelper.getScaledBitmapFromResource(this, R.drawable.bubble, entitySize, entitySize);
-        upBitmaps[0] =ImageHelper.getScaledBitmapFromResource(this, R.drawable.balloon, entitySize*4 , entitySize);
+        upBitmap = ImageHelper.getScaledBitmapFromResource(this, R.drawable.bubble, entitySize, entitySize);
 
         items = new Entity[numItems];
         for(int i = 0; i < numItems; i++)
         {
             items[i] = new Entity(this, i*entitySize, HEIGHT/2.0 - entitySize, entitySize, entitySize, i);
         }
-    }
-
-    public Sprite getRandomUpSprite(int w, int h)
-    {
-        return new Sprite(getRandomUpBitmap(), w, h, 4, 50);
-    }
-
-    public Sprite getRandomDownSprite(int w, int h)
-    {
-        return new Sprite(getRandomDownBitmap(), w, h);
-    }
-
-    public Bitmap getRandomUpBitmap()
-    {
-        return upBitmaps[(int)(Math.random() * upBitmaps.length)];
-    }
-
-    public Bitmap getRandomDownBitmap()
-    {
-        return downBitmaps[(int)(Math.random() * downBitmaps.length)];
     }
 
     public ArrayList<Objective> getObjectives()

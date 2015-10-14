@@ -23,7 +23,7 @@ public class Entity
     private double vY;
     private double aX;
     private double aY;
-    private Sprite sprite;
+    private Sprite upSprite, downSprite, currentSprite;
     private int n;
     private long freezeUntil;
 
@@ -36,10 +36,13 @@ public class Entity
         this.height = height;
         this.aY = getRandomAcceleration(Math.random() > 0.5);
         this.n = n;
+        upSprite = new Sprite(game.getUpBitmap(), width, height);
+        downSprite = new Sprite(game.getDownBitmap(), width, height);
+
         if(aY > 0)
-            sprite = game.getRandomDownSprite(width, height);
+            currentSprite = downSprite;
         else
-            sprite = game.getRandomUpSprite(width, height);
+            currentSprite = upSprite;
     }
 
     private double getRandomAcceleration(boolean positive)
@@ -66,7 +69,7 @@ public class Entity
             else if (y >= GameActivity.HEIGHT)
                 hitBottom();
         }
-        sprite.update(getDrawRect());
+        currentSprite.update(getDrawRect());
     }
 
     private void hitBottom()
@@ -100,16 +103,17 @@ public class Entity
         if(aY<0)
         {
             this.aY = getRandomAcceleration(true);
-            sprite = game.getRandomDownSprite(width, height);
+            currentSprite =downSprite;
             game.addToScore((int)(GameActivity.HEIGHT - y));
         }
         else
         {
             this.aY = getRandomAcceleration(false);
-            sprite = game.getRandomUpSprite(width, height);
-            game.addToScore((int)(y));
-
+            currentSprite = upSprite;
+            game.addToScore((int) (y));
         }
+        currentSprite.update(getDrawRect());
+
         //Check all objectives. If in same row, remove and apply effect if in zone.
         Iterator<Objective> it = game.getObjectives().iterator();
         while(it.hasNext())
@@ -194,10 +198,7 @@ public class Entity
     }
 
     public Sprite getSprite() {
-        return sprite;
+        return currentSprite;
     }
 
-    public void setSprite(Sprite sprite) {
-        this.sprite = sprite;
-    }
 }

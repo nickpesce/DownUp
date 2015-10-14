@@ -42,7 +42,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         requestFocus();
         game = (GameActivity)context;
         transformation = new Matrix();
-       // background = ImageHelper.getScaledBitmapFromResource(context, R.drawable.background, GameActivity.WIDTH/10, GameActivity.HEIGHT/10);
+        background = ImageHelper.getScaledBitmapFromResource(context, R.drawable.background, GameActivity.WIDTH, GameActivity.HEIGHT);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         paint.setColor(Color.GRAY);
         canvas.drawRect(0, 0, GameActivity.WIDTH, GameActivity.HEIGHT, paint);
-       // canvas.drawBitmap(background, offX, offY, (int)(GameActivity.WIDTH*scale), (int)(GameActivity.HEIGHT*scale), paint);
+        canvas.drawBitmap(background, 0, 0, paint);
 
         paint.setColor(Color.BLACK);
         for(int i = 0; i < game.getNumItems(); i++)
@@ -99,11 +99,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             int x = (int)(((double)GameActivity.WIDTH/game.getNumItems())*i);
             canvas.drawLine(x,0, x, GameActivity.HEIGHT, paint);
         }
+        /*
         paint.setColor(Color.GREEN);
         paint.setAlpha(20);
         canvas.drawRect(0, GameActivity.HEIGHT - GameActivity.HEIGHT/5, GameActivity.WIDTH , GameActivity.HEIGHT, paint);
         canvas.drawRect(0, 0, GameActivity.WIDTH, GameActivity.HEIGHT/5, paint);
-
+        */
         for(Objective o : game.getObjectives())
             o.draw(canvas, this);
         for(Entity e : game.getItems())
